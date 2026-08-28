@@ -104,16 +104,16 @@ const CustomLoader = () => {
   const { progress } = useProgress();
   return (
     <Html center>
-      <div className="flex flex-col items-center justify-center p-6 bg-gradient-to-br from-black/80 via-gray-900/80 to-red-900/60 backdrop-blur-xl rounded-3xl text-white border border-yellow-500/30 shadow-2xl">
+      <div className="flex flex-col items-center justify-center p-6 bg-gradient-to-br from-black/80 via-gray-900/80 to-amber-500/60 backdrop-blur-xl rounded-3xl text-white border border-amber-400/30 shadow-2xl">
         <div className="mb-4 relative">
-          <div className="w-16 h-16 border-4 border-yellow-500/30 border-t-yellow-400 rounded-full animate-spin"></div>
+          <div className="w-16 h-16 border-4 border-amber-400/30 border-t-amber-400 rounded-full animate-spin"></div>
           <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-r-orange-400 rounded-full animate-spin" style={{animationDirection: 'reverse', animationDuration: '1.5s'}}></div>
         </div>
-        <p className="text-sm sm:text-base font-bold text-yellow-300 mb-2">Loading 3D Model...</p>
+        <p className="text-sm sm:text-base font-bold text-amber-300 mb-2">Loading 3D Model...</p>
         <div className="w-48 h-2 bg-gray-700 rounded-full overflow-hidden mb-2">
           <div 
             style={{ width: `${progress}%` }} 
-            className="h-full bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-300 rounded-full transition-all duration-300"
+            className="h-full bg-gradient-to-r from-amber-400 via-amber-400 to-amber-300 rounded-full transition-all duration-300"
           />
         </div>
         <p className="text-xs sm:text-sm text-gray-300">{progress.toFixed(1)}% loaded</p>
@@ -138,10 +138,10 @@ const InteractiveCar3D = () => {
     <section className="relative h-screen w-full flex flex-col items-center justify-center bg-black overflow-hidden">
       {/* Animated background particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-yellow-400 rounded-full opacity-60 animate-pulse"></div>
+        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-amber-400 rounded-full opacity-60 animate-pulse"></div>
         <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-orange-400 rounded-full opacity-40 animate-bounce" style={{animationDelay: '1s'}}></div>
-        <div className="absolute bottom-1/3 left-1/2 w-3 h-3 bg-red-400 rounded-full opacity-30 animate-pulse" style={{animationDelay: '2s'}}></div>
-        <div className="absolute top-2/3 right-1/4 w-1.5 h-1.5 bg-yellow-300 rounded-full opacity-50 animate-bounce" style={{animationDelay: '0.5s'}}></div>
+        <div className="absolute bottom-1/3 left-1/2 w-3 h-3 bg-amber-400 rounded-full opacity-30 animate-pulse" style={{animationDelay: '2s'}}></div>
+        <div className="absolute top-2/3 right-1/4 w-1.5 h-1.5 bg-amber-300 rounded-full opacity-50 animate-bounce" style={{animationDelay: '0.5s'}}></div>
         <div className="absolute bottom-1/4 right-1/2 w-2.5 h-2.5 bg-orange-300 rounded-full opacity-25 animate-pulse" style={{animationDelay: '1.5s'}}></div>
         <div className="absolute top-1/2 left-1/3 w-1 h-1 bg-gold-400 rounded-full opacity-70 animate-ping" style={{animationDelay: '3s'}}></div>
       </div>
@@ -229,11 +229,11 @@ const InteractiveCar3D = () => {
       <div className="pointer-events-none z-30 absolute inset-0">
         {/* Top-left - Hidden on very small screens */}
         <div className="absolute top-4 left-4 sm:top-6 sm:left-6 max-w-[200px] xs:max-w-xs sm:max-w-md">
-          <div className="text-white drop-shadow-2xl bg-gradient-to-br from-black/50 via-gray-900/60 to-red-900/40 backdrop-blur-xl rounded-2xl px-4 py-3 border border-yellow-500/30 shadow-2xl shadow-yellow-500/10">
-            <h3 className="text-xs xs:text-sm sm:text-base font-bold uppercase tracking-widest text-yellow-300 mb-1">
+          <div className="text-white drop-shadow-2xl bg-gradient-to-br from-black/50 via-gray-900/60 to-amber-500/40 backdrop-blur-xl rounded-2xl px-4 py-3 border border-amber-400/30 shadow-2xl shadow-amber-400/10">
+            <h3 className="text-xs xs:text-sm sm:text-base font-bold uppercase tracking-widest text-amber-300 mb-1">
               ✨ Premium Fleet
             </h3>
-            <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black leading-tight bg-gradient-to-r from-white via-yellow-100 to-yellow-200 bg-clip-text text-transparent">
+            <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black leading-tight bg-gradient-to-r from-white via-amber-100 to-amber-200 bg-clip-text text-transparent">
               Luxury In Motion
             </h2>
           </div>
@@ -241,11 +241,11 @@ const InteractiveCar3D = () => {
 
         {/* Bottom-right - Adjusted for mobile */}
         <div className="absolute right-4 bottom-4 sm:right-6 sm:bottom-6 text-right max-w-[180px] xs:max-w-xs sm:max-w-sm">
-          <div className="text-white drop-shadow-2xl bg-gradient-to-br from-black/50 via-gray-900/60 to-red-900/40 backdrop-blur-xl rounded-2xl px-4 py-3 border border-yellow-500/30 shadow-2xl shadow-yellow-500/10">
-            <h3 className="text-xs xs:text-sm sm:text-base font-bold uppercase tracking-widest text-yellow-300 mb-1">
+          <div className="text-white drop-shadow-2xl bg-gradient-to-br from-black/50 via-gray-900/60 to-amber-500/40 backdrop-blur-xl rounded-2xl px-4 py-3 border border-amber-400/30 shadow-2xl shadow-amber-400/10">
+            <h3 className="text-xs xs:text-sm sm:text-base font-bold uppercase tracking-widest text-amber-300 mb-1">
               🚗 Seamless Booking
             </h3>
-            <h2 className="text-base xs:text-lg sm:text-xl md:text-2xl font-black leading-tight bg-gradient-to-r from-white via-yellow-100 to-yellow-200 bg-clip-text text-transparent">
+            <h2 className="text-base xs:text-lg sm:text-xl md:text-2xl font-black leading-tight bg-gradient-to-r from-white via-amber-100 to-amber-200 bg-clip-text text-transparent">
               Drive The Dream
             </h2>
           </div>
@@ -254,15 +254,15 @@ const InteractiveCar3D = () => {
 
       {/* Responsive Car Selector & Controls */}
       <div className="relative z-20 bottom-4 flex flex-col items-center gap-2 px-4">
-        <div className="flex flex-wrap justify-center gap-2 bg-black/40 rounded-full px-3 py-2 backdrop-blur-xl border border-yellow-500/30">
+        <div className="flex flex-wrap justify-center gap-2 bg-black/40 rounded-full px-3 py-2 backdrop-blur-xl border border-amber-400/30">
           {cars.map((car, index) => (
             <button
               key={index}
               onClick={() => setCurrentCar(car.model)}
               className={`px-5 py-2 rounded-full font-semibold transition-all duration-300 text-xs sm:text-sm ${
                 currentCar === car.model
-                  ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-black shadow-lg scale-105'
-                  : 'text-gray-300 hover:text-yellow-300 bg-gray-800/40 hover:bg-yellow-600/20 border border-yellow-500/20'
+                  ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-black shadow-lg scale-105'
+                  : 'text-gray-300 hover:text-amber-300 bg-gray-800/40 hover:bg-amber-500/20 border border-amber-400/20'
               }`}
             >
               {car.name}
@@ -271,7 +271,7 @@ const InteractiveCar3D = () => {
         </div>
         {/* <button
           onClick={() => setAutoRotate((prev) => !prev)}
-          className={`px-4 py-1.5 rounded-full font-semibold transition-all duration-300 text-xs sm:text-sm bg-gradient-to-r from-yellow-500 to-yellow-600 text-black shadow-lg hover:scale-105 border border-yellow-400 ${autoRotate ? 'animate-pulse' : 'opacity-75'}`}
+          className={`px-4 py-1.5 rounded-full font-semibold transition-all duration-300 text-xs sm:text-sm bg-gradient-to-r from-amber-400 to-amber-500 text-black shadow-lg hover:scale-105 border border-amber-400 ${autoRotate ? 'animate-pulse' : 'opacity-75'}`}
         >
           {autoRotate ? '⏸️ Pause' : '▶️ Play'}
         </button> */}

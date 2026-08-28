@@ -61,15 +61,15 @@ const Navbar = () => {
                                 end={item.to === '/'}
                                 className={({ isActive }) =>
                                     item.isSpecial
-                                        ? `text-sm font-bold transition px-4 py-2 rounded-lg bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-md`
-                                        : `text-sm font-medium transition px-2 py-1 ${isActive ? 'text-white underline underline-offset-8 decoration-red-500' : 'text-gray-300 hover:text-white hover:decoration-red-500'}`
+                                        ? `text-sm font-bold transition px-4 py-2 rounded-lg bg-amber-400 hover:bg-amber-300 text-black shadow-md`
+                                        : `text-sm font-medium transition px-2 py-1 ${isActive ? 'text-white underline underline-offset-8 decoration-amber-400' : 'text-gray-300 hover:text-white hover:decoration-amber-400'}`
                                 }
                             >
                                 {item.label}
                             </NavLink>
                         ))}
 
-                        <Link to="/our-fleet" className="ml-2 inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold shadow">
+                        <Link to="/our-fleet" className="ml-2 inline-flex items-center px-4 py-2 bg-amber-400 hover:bg-amber-300 text-black rounded-lg font-semibold shadow">
                             Explore Cars
                         </Link>
                     </div>
@@ -95,7 +95,7 @@ const Navbar = () => {
 
             {/* Mobile Menu Panel */}
             {open && (
-                <div className="md:hidden bg-black/95 border-t border-red-900/10">
+                <div className="md:hidden bg-black/95 border-t border-amber-400/10">
                     <div className="px-4 pt-4 pb-6 space-y-2">
                         {navItems.map((item) => (
                             <NavLink
@@ -105,7 +105,7 @@ const Navbar = () => {
                                 onClick={() => setOpen(false)}
                                 className={({ isActive }) => 
                                     item.isSpecial
-                                        ? 'block px-3 py-2 rounded-md text-base font-bold bg-gradient-to-r from-red-600 to-red-700 text-white'
+                                        ? 'block px-3 py-2 rounded-md text-base font-bold bg-amber-400 text-black'
                                         : `block px-3 py-2 rounded-md text-base font-medium ${isActive ? 'text-white bg-white/5' : 'text-gray-300 hover:text-white'}`
                                 }
                             >
@@ -113,7 +113,7 @@ const Navbar = () => {
                             </NavLink>
                         ))} 
                         <div className="pt-3">
-                            <Link to="/our-fleet" onClick={() => setOpen(false)} className="block w-full text-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold">
+                            <Link to="/our-fleet" onClick={() => setOpen(false)} className="block w-full text-center px-4 py-2 bg-amber-400 hover:bg-amber-300 text-black rounded-lg font-semibold">
                                 Explore Cars
                             </Link>
                         </div>

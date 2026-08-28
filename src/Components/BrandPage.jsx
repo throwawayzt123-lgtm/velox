@@ -1,48 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import carsData from '../carsData';
+import CarCard, { Reveal, SectionLabel } from './CarCard';
 
-// SVG Icon Components
-const ChevronLeft = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+const ArrowLeft = ({ className = 'w-4 h-4' }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
   </svg>
 );
 
-const ChevronRight = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-  </svg>
-);
-
-const Star = () => (
-  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-  </svg>
-);
-
-const Users = () => (
-  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
-  </svg>
-);
-
-const Fuel = () => (
-  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
-  </svg>
-);
-
-const Car = () => (
-  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+const ArrowRight = ({ className = 'w-4 h-4' }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
   </svg>
 );
 
 const BrandPage = () => {
   const { brandName } = useParams();
-  const [currentImageIndex, setCurrentImageIndex] = useState({});
+
   const brandAliasMap = {
     audi: 'Audi',
     bmw: 'BMW',
@@ -56,180 +31,140 @@ const BrandPage = () => {
     nissan: 'Nissan',
     mclaren: 'McLaren',
   };
+
   const selectedBrand = brandAliasMap[brandName?.toLowerCase()] || brandName?.replace(/-/g, ' ');
-  const filteredCars = carsData.filter(car => car.brand.toLowerCase() === selectedBrand?.toLowerCase());
+  const filteredCars = carsData.filter(
+    (car) => car.brand.toLowerCase() === selectedBrand?.toLowerCase()
+  );
 
-  // Sample multiple images for each car
-  const getCarImages = (carId) => [
-    `https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80&car=${carId}_1`,
-    `https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&q=80&car=${carId}_2`,
-    `https://images.unsplash.com/photo-1549927681-0b673b8243ab?w=800&q=80&car=${carId}_3`,
-    `https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=800&q=80&car=${carId}_4`
-  ];
-
-  const nextImage = (carId, totalImages) => {
-    setCurrentImageIndex(prev => ({
-      ...prev,
-      [carId]: ((prev[carId] || 0) + 1) % totalImages
-    }));
-  };
-
-  const prevImage = (carId, totalImages) => {
-    setCurrentImageIndex(prev => ({
-      ...prev,
-      [carId]: ((prev[carId] || 0) - 1 + totalImages) % totalImages
-    }));
-  };
+  const displayName = filteredCars[0]?.brand || selectedBrand;
+  const heroImage = filteredCars[0]?.previewImage || filteredCars[0]?.image;
 
   return (
-    <div className="min-h-screen pt-32 bg-gradient-to-br from-violet-950 via-purple-950 to-fuchsia-950 text-white py-8">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-block bg-gradient-to-r from-red-600 to-pink-600 px-6 py-2 rounded-full mb-4">
-            <span className="text-sm font-semibold uppercase tracking-wider">Premium Collection</span>
+    <div className="min-h-screen bg-[#0a0a0b] text-white selection:bg-amber-400/25 overflow-x-clip">
+      {/* ============================================================ */}
+      {/*  MASTHEAD                                                    */}
+      {/* ============================================================ */}
+      <section className="relative overflow-hidden border-b border-white/[0.07]">
+        {heroImage && (
+          <div className="absolute inset-0">
+            <img src={heroImage} alt="" className="w-full h-full object-cover opacity-[0.16]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0b] via-[#0a0a0b]/80 to-[#0a0a0b]" />
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-            {brandName} <span className="text-red-500">Cars</span>
-          </h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Discover the ultimate driving experience with our exclusive {brandName} collection
-          </p>
+        )}
+        <div className="absolute -bottom-1/2 left-1/2 -translate-x-1/2 w-[120%] h-[100%] bg-[radial-gradient(ellipse_at_center,rgb(var(--primary-500)_/_0.12),transparent_65%)] pointer-events-none" />
+
+        {/* Giant ghost wordmark */}
+        <div className="absolute inset-x-0 bottom-0 flex justify-center pointer-events-none select-none">
+          <span className="text-[17vw] leading-none font-black tracking-tighter text-white/[0.04] whitespace-nowrap uppercase translate-y-[18%]">
+            {displayName}
+          </span>
         </div>
 
-        {filteredCars.length === 0 ? (
-          <div className="text-center py-20">
-            <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-12 max-w-md mx-auto border border-white/20">
-              <Car />
-              <h3 className="text-2xl font-bold mb-4">No Cars Found</h3>
-              <p className="text-gray-300 mb-6">We couldn't find any {brandName} cars in our collection.</p>
+        <div className="relative container mx-auto px-6 sm:px-10 lg:px-16 pt-36 sm:pt-44 pb-20 sm:pb-28">
+          <Link
+            to="/our-fleet"
+            className="group inline-flex items-center gap-3 text-[10px] sm:text-xs uppercase tracking-[0.3em] text-white/50 hover:text-amber-300 transition-colors duration-500 mb-14"
+          >
+            <ArrowLeft className="w-4 h-4 transition-transform duration-500 group-hover:-translate-x-1.5" />
+            The Collection
+          </Link>
+
+          <div className="max-w-3xl">
+            <div className="font-mono text-[10px] tracking-[0.35em] text-amber-400/80 mb-6">
+              MARQUE / {String(filteredCars.length).padStart(2, '0')}{' '}
+              {filteredCars.length === 1 ? 'VEHICLE' : 'VEHICLES'}
+            </div>
+            <h1 className="text-[clamp(2.5rem,8vw,6rem)] leading-[0.9] font-light tracking-[-0.03em]">
+              {displayName}
+            </h1>
+            <p className="mt-8 text-sm sm:text-base text-white/45 max-w-lg leading-relaxed">
+              Discover the ultimate driving experience with our exclusive {displayName} collection —
+              each vehicle presented in factory specification and delivered to your door.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/*  GRID                                                        */}
+      {/* ============================================================ */}
+      <section className="relative">
+        <div className="container mx-auto px-6 sm:px-10 lg:px-16 py-20 sm:py-28">
+          {filteredCars.length === 0 ? (
+            <div className="text-center max-w-md mx-auto py-16">
+              <div className="font-mono text-xs tracking-[0.3em] text-amber-500/70 mb-6">
+                NO RESULTS
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-light tracking-tight mb-6">
+                Nothing in this <span className="font-serif italic text-amber-200/90">marque</span>
+              </h2>
+              <p className="text-white/45 text-sm mb-10 leading-relaxed">
+                We couldn&apos;t find any {displayName} vehicles in the collection right now.
+              </p>
               <Link
-                to="/"
-                className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
+                to="/our-fleet"
+                className="group inline-flex items-center gap-3 border border-white/20 hover:border-amber-400/60 px-8 py-4 text-xs uppercase tracking-[0.25em] transition-colors duration-500"
               >
-                Back to Home
+                <ArrowLeft className="w-4 h-4 transition-transform duration-500 group-hover:-translate-x-1" />
+                View the full fleet
               </Link>
             </div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-            {filteredCars.map((car) => {
-              const carImages = getCarImages(car.id);
-              const currentIndex = currentImageIndex[car.id] || 0;
+          ) : (
+            <>
+              <Reveal>
+                <SectionLabel index="01" className="mb-12 sm:mb-16">
+                  Available now
+                </SectionLabel>
+              </Reveal>
 
-              return (
-                <div
-                  key={car.id}
-                  className="group flex flex-col h-full bg-white/5 backdrop-blur-lg rounded-3xl overflow-hidden border border-white/10 hover:border-red-500/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl"
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+                {filteredCars.map((car, i) => (
+                  <Reveal key={car.id} delay={i * 110}>
+                    <CarCard car={car} priority={i === 0} />
+                  </Reveal>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/*  CTA                                                         */}
+      {/* ============================================================ */}
+      {filteredCars.length > 0 && (
+        <section className="relative border-t border-white/[0.07] overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] bg-[radial-gradient(ellipse_at_center,rgb(var(--primary-500)_/_0.1),transparent_70%)] pointer-events-none" />
+          <div className="relative container mx-auto px-6 sm:px-10 lg:px-16 py-24 sm:py-32 text-center">
+            <Reveal>
+              <div className="font-mono text-[10px] tracking-[0.35em] text-amber-400/70 mb-8">
+                ENQUIRY
+              </div>
+              <h2 className="text-[clamp(1.75rem,5.5vw,4rem)] leading-[0.98] font-light tracking-[-0.03em] max-w-3xl mx-auto">
+                Ready to drive your dream{' '}
+                <span className="font-serif italic text-amber-200/90">{displayName}</span>?
+              </h2>
+              <p className="mt-8 text-sm sm:text-base text-white/45 max-w-lg mx-auto leading-relaxed">
+                Our specialists arrange everything — delivery, insurance and a full handover before
+                you take the wheel.
+              </p>
+              <div className="mt-12">
+                <Link
+                  to="/contact-us#form"
+                  className="group relative inline-block overflow-hidden bg-amber-400 text-black px-12 py-5 text-xs uppercase tracking-[0.28em] font-medium"
                 >
-                  {/* Image Gallery */}
-                  <div className="relative h-64 sm:h-80 overflow-hidden">
-                    <img
-                      src={carImages[currentIndex]}
-                      alt={`${car.name} - View ${currentIndex + 1}`}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    
-                    {/* Image Navigation */}
-                    <button
-                      onClick={() => prevImage(car.id, carImages.length)}
-                      className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-300"
-                    >
-                      <ChevronLeft />
-                    </button>
-                    <button
-                      onClick={() => nextImage(car.id, carImages.length)}
-                      className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-300"
-                    >
-                      <ChevronRight />
-                    </button>
-
-                    {/* Image Indicators */}
-                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                      {carImages.map((_, index) => (
-                        <button
-                          key={index}
-                          onClick={() => setCurrentImageIndex(prev => ({ ...prev, [car.id]: index }))}
-                          className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                            index === currentIndex ? 'bg-red-500 w-6' : 'bg-white/50'
-                          }`}
-                        />
-                      ))}
-                    </div>
-
-                    {/* Price Badge */}
-                    <div className="absolute top-4 right-4">
-                      <div className="bg-gradient-to-r from-red-600 to-pink-600 text-white px-4 py-2 rounded-full font-bold text-lg shadow-lg">
-                        AED {car.pricePerDay}
-                        <span className="text-sm font-normal">/day</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6 flex flex-col justify-between flex-1">
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h2 className="text-2xl font-bold mb-1">{car.name}</h2>
-                        <p className="text-gray-300 text-sm">{car.model}</p>
-                      </div>
-                      <div className="flex items-center bg-yellow-500 text-black px-2 py-1 rounded text-sm font-semibold">
-                        <Star />
-                        <span className="ml-1">4.8</span>
-                      </div>
-                    </div>
-
-                    <p className="text-gray-300 mb-6 line-clamp-2">{car.description}</p>
-
-                    {/* Features */}
-                    <div className="grid grid-cols-3 gap-4 mb-6">
-                      <div className="text-center">
-                        <Users />
-                        <span className="text-sm text-gray-300 mt-2 block">4 Seats</span>
-                      </div>
-                      <div className="text-center">
-                        <Fuel />
-                        <span className="text-sm text-gray-300 mt-2 block">Premium</span>
-                      </div>
-                      <div className="text-center">
-                        <Car />
-                        <span className="text-sm text-gray-300 mt-2 block">Auto</span>
-                      </div>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex space-x-3">
-                      <Link
-                        to={`/car/${car.id}`}
-                        className="flex-1 bg-red-600 hover:bg-red-700 text-white text-center py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
-                      >
-                        View Details
-                      </Link>
-                      <button onClick={() => window.location.href = '/contact-us#form'} className="bg-white/10 hover:bg-white/20 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 border border-white/20">
-                        Book Now
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+                  <span className="relative z-10 inline-flex items-center gap-3">
+                    Contact a specialist
+                    <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1.5" />
+                  </span>
+                  <span className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                </Link>
+              </div>
+            </Reveal>
           </div>
-        )}
-
-        {/* Bottom CTA */}
-        {filteredCars.length > 0 && (
-          <div className="text-center mt-16">
-            <div className="bg-gradient-to-r from-red-600 to-pink-600 rounded-2xl p-8 max-w-2xl mx-auto">
-              <h3 className="text-2xl font-bold mb-4">Ready to Drive Your Dream {brandName}?</h3>
-              <p className="text-gray-100 mb-6">Contact our luxury car specialists for personalized service</p>
-              <button className="bg-white text-red-600 hover:bg-gray-100 px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105">
-                Contact Specialist
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
+        </section>
+      )}
     </div>
   );
 };

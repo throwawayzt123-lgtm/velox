@@ -12,7 +12,7 @@ const LuxuryCarCarousel = () => {
   return (
     <div className="relative py-16 sm:py-24 bg-[#050505]">
       {/* Background glow for atmosphere */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-7xl max-h-[800px] bg-red-600/5 blur-[150px] pointer-events-none z-0"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-7xl max-h-[800px] bg-amber-500/5 blur-[150px] pointer-events-none z-0"></div>
 
       <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -20,7 +20,7 @@ const LuxuryCarCarousel = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 lg:mb-16">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-1.5 h-8 bg-red-600 rounded-full shadow-[0_0_15px_rgba(220,38,38,0.8)] animate-pulse"></div>
+              <div className="w-1.5 h-8 bg-amber-400 rounded-full shadow-[0_0_15px_rgb(var(--primary-500)_/_0.8)] animate-pulse"></div>
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-gray-500 tracking-tight leading-tight">
                 Exotic Spotlight
               </h2>
@@ -30,9 +30,9 @@ const LuxuryCarCarousel = () => {
             </p>
           </div>
           <div className="hidden md:block">
-            <Link to="/our-fleet" className="group flex items-center gap-2 text-red-500 font-bold tracking-widest uppercase text-sm hover:text-red-400 transition-colors">
+            <Link to="/our-fleet" className="group flex items-center gap-2 text-amber-400 font-bold tracking-widest uppercase text-sm hover:text-amber-300 transition-colors">
               <span>View Full Gallery</span>
-              <div className="w-8 h-[2px] bg-red-500 group-hover:w-12 transition-all duration-300"></div>
+              <div className="w-8 h-[2px] bg-amber-400 group-hover:w-12 transition-all duration-300"></div>
             </Link>
           </div>
         </div>
@@ -83,8 +83,8 @@ const LuxuryCarCarousel = () => {
                     {/* Typography: Title & Brand */}
                     <div className="max-w-3xl slide-text-content">
                       <div className="flex items-center gap-4 mb-4 sm:mb-6">
-                        <span className="h-[2px] w-12 bg-red-600 shadow-[0_0_10px_rgba(220,38,38,1)]"></span>
-                        <span className="text-red-500 font-extrabold tracking-[0.4em] uppercase text-xs sm:text-sm drop-shadow-md">
+                        <span className="h-[2px] w-12 bg-amber-400 shadow-[0_0_10px_rgb(var(--primary-500)_/_1)]"></span>
+                        <span className="text-amber-400 font-extrabold tracking-[0.4em] uppercase text-xs sm:text-sm drop-shadow-md">
                           {car.brand || "Luxury Edition"}
                         </span>
                       </div>
@@ -105,16 +105,16 @@ const LuxuryCarCarousel = () => {
                          <span className="text-gray-400 text-xs font-bold tracking-[0.2em] uppercase mb-1">Daily Rate</span>
                          <div className="flex items-baseline gap-1.5">
                            <span className="text-4xl lg:text-5xl text-white font-extrabold">${car.pricePerDay}</span>
-                           <span className="text-red-500 text-xs sm:text-sm font-bold tracking-widest uppercase">/ Day</span>
+                           <span className="text-amber-400 text-xs sm:text-sm font-bold tracking-widest uppercase">/ Day</span>
                          </div>
                        </div>
                        
                        <div className="hidden sm:block w-[1px] h-16 bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
                        
                        <Link to={`/car/${car.id}`} className="w-full sm:w-auto z-10">
-                         <button className="w-full sm:w-auto relative overflow-hidden rounded-xl bg-red-600 px-8 sm:px-10 py-4 flex items-center justify-center gap-3 transition-transform hover:scale-105 shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.7)] group/btn">
-                           <span className="relative z-10 text-white font-black tracking-widest uppercase text-xs sm:text-sm">Reserve</span>
-                           <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white relative z-10 transform group-hover/btn:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                         <button className="w-full sm:w-auto relative overflow-hidden rounded-xl bg-amber-400 px-8 sm:px-10 py-4 flex items-center justify-center gap-3 transition-transform hover:scale-105 shadow-[0_0_20px_rgb(var(--primary-500)_/_0.35)] hover:shadow-[0_0_30px_rgb(var(--primary-500)_/_0.6)] group/btn">
+                           <span className="relative z-10 text-black font-black tracking-widest uppercase text-xs sm:text-sm">Reserve</span>
+                           <svg className="w-4 h-4 sm:w-5 sm:h-5 text-black relative z-10 transform group-hover/btn:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                          </button>
                        </Link>
                     </div>
@@ -147,10 +147,11 @@ const LuxuryCarCarousel = () => {
         
         .masterpiece-swiper .swiper-button-next:hover,
         .masterpiece-swiper .swiper-button-prev:hover {
-          background: #dc2626;
-          border-color: #dc2626;
+          background: rgb(var(--primary-400));
+          border-color: rgb(var(--primary-400));
+          color: #0a0a0b !important;
           transform: scale(1.1);
-          box-shadow: 0 0 30px rgba(220, 38, 38, 0.5);
+          box-shadow: 0 0 30px rgb(var(--primary-500) / 0.5);
         }
 
         .masterpiece-swiper .swiper-button-next:after,
@@ -179,9 +180,9 @@ const LuxuryCarCarousel = () => {
         }
 
         .masterpiece-swiper .swiper-pagination-bullet-active {
-          background: #dc2626 !important;
+          background: rgb(var(--primary-400)) !important;
           width: 60px !important;
-          box-shadow: 0 0 10px rgba(220, 38, 38, 0.8) !important;
+          box-shadow: 0 0 10px rgb(var(--primary-500) / 0.8) !important;
         }
 
         /* Continuous Cinematic Scale for Active Slide Image */

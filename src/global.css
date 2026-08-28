@@ -1,0 +1,44 @@
+/* ==================================================================
+   GLOBAL DESIGN TOKENS
+   ------------------------------------------------------------------
+   The site's primary (gold) colour lives here and NOWHERE ELSE.
+   Change the five --primary-* values below and every accent across
+   the entire site updates: buttons, hover states, rules, glows,
+   focus rings, the 3D loader, the carousel — all of it.
+
+   Values are space-separated RGB channels (not `rgb(...)`) so that
+   Tailwind's slash-opacity syntax keeps working, e.g.
+       text-primary          -> solid
+       text-primary/40       -> 40% opacity
+       bg-primary-light/10   -> 10% opacity
+
+   The scale mirrors Tailwind's amber ramp, so existing shade choices
+   (100/200/300/400/500) map across one-to-one.
+   ================================================================== */
+
+:root {
+  /* --- PRIMARY (gold) ------------------------------------------- */
+  --primary-100: 254 243 199; /* lightest  — was amber-100 */
+  --primary-200: 253 230 138; /* light     — was amber-200 */
+  --primary-300: 252 211 77;  /* soft      — was amber-300 */
+  --primary-400: 251 191 36;  /* BASE      — was amber-400 */
+  --primary-500: 245 158 11;  /* deep      — was amber-500 */
+
+  /* Convenience aliases for plain CSS (gradients, shadows, glows).
+     These derive from the tokens above — do not hardcode colours. */
+  --primary: rgb(var(--primary-400));
+  --primary-rgb: var(--primary-400);
+  --primary-deep-rgb: var(--primary-500);
+
+  /* --- SURFACE -------------------------------------------------- */
+  --surface: 10 10 11; /* #0a0a0b — the site's near-black ground */
+}
+
+/* Optional: a single place to retune the whole palette.
+   e.g. for a crimson brand you would only change these five lines:
+     --primary-100: 254 226 226;
+     --primary-200: 254 202 202;
+     --primary-300: 252 165 165;
+     --primary-400: 248 113 113;
+     --primary-500: 239 68 68;
+*/

@@ -94,7 +94,7 @@ const ModelLoader = () => {
       <div className="flex flex-col items-center justify-center p-4 bg-black/60 rounded-lg text-white backdrop-blur-sm">
         <div className="mb-2 font-semibold">Loading 3D Model</div>
         <div className="w-48 h-2 bg-gray-700 rounded overflow-hidden">
-          <div style={{ width: `${progress}%` }} className="h-full bg-gradient-to-r from-red-500 to-red-700" />
+          <div style={{ width: `${progress}%` }} className="h-full bg-gradient-to-r from-amber-400 to-amber-500" />
         </div>
         <div className="mt-2 text-sm text-gray-300">{Math.round(progress)}%</div>
       </div>
@@ -147,14 +147,14 @@ const GWagonSpecial = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-red-950 text-white overflow-x-hidden relative">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-amber-500 text-white overflow-x-hidden relative">
       {/* Animated background particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-yellow-400 rounded-full opacity-60 animate-pulse"></div>
-        <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-red-400 rounded-full opacity-40 animate-bounce" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-amber-400 rounded-full opacity-60 animate-pulse"></div>
+        <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-amber-400 rounded-full opacity-40 animate-bounce" style={{animationDelay: '1s'}}></div>
         <div className="absolute bottom-1/3 left-1/2 w-3 h-3 bg-orange-400 rounded-full opacity-30 animate-pulse" style={{animationDelay: '2s'}}></div>
-        <div className="absolute top-2/3 right-1/4 w-1.5 h-1.5 bg-yellow-300 rounded-full opacity-50 animate-bounce" style={{animationDelay: '0.5s'}}></div>
-        <div className="absolute bottom-1/4 right-1/2 w-2.5 h-2.5 bg-red-300 rounded-full opacity-25 animate-pulse" style={{animationDelay: '1.5s'}}></div>
+        <div className="absolute top-2/3 right-1/4 w-1.5 h-1.5 bg-amber-300 rounded-full opacity-50 animate-bounce" style={{animationDelay: '0.5s'}}></div>
+        <div className="absolute bottom-1/4 right-1/2 w-2.5 h-2.5 bg-amber-300 rounded-full opacity-25 animate-pulse" style={{animationDelay: '1.5s'}}></div>
       </div>
       {/* Navigation Bar Spacer */}
       <div className="h-20 md:h-24"></div>
@@ -202,7 +202,7 @@ const GWagonSpecial = () => {
           </Canvas>
 
           {/* Rating badge - top left */}
-          <div className="absolute top-6 left-6 bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-4 py-2 rounded-full font-bold text-lg flex items-center gap-2 shadow-lg z-10 border-2 border-yellow-300">
+          <div className="absolute top-6 left-6 bg-gradient-to-r from-amber-400 to-amber-500 text-black px-4 py-2 rounded-full font-bold text-lg flex items-center gap-2 shadow-lg z-10 border-2 border-amber-300">
             <Star />
             {gwagonData.rating}
           </div>
@@ -214,7 +214,7 @@ const GWagonSpecial = () => {
                 {/* Left: Title & Description */}
                 <div>
                   <h1 className="text-2xl md:text-3xl font-extrabold mb-1">{gwagonData.name}</h1>
-                  <h2 className="text-lg md:text-xl text-red-400 font-semibold mb-3">{gwagonData.model}</h2>
+                  <h2 className="text-lg md:text-xl text-amber-400 font-semibold mb-3">{gwagonData.model}</h2>
                   <p className="text-gray-300 text-xs md:text-sm leading-relaxed">{gwagonData.description}</p>
                 </div>
 
@@ -222,26 +222,26 @@ const GWagonSpecial = () => {
                 <div className="flex flex-col gap-4">
                   {/* Pricing Grid */}
                   <div className="grid grid-cols-3 gap-2">
-                    <div className="p-3 bg-gradient-to-br from-gray-800/60 to-gray-900/60 rounded-lg text-center border border-yellow-500/30 hover:border-yellow-400/60 transition-all">
-                      <div className="text-yellow-400 font-bold text-sm md:text-base">${gwagonData.pricePerDay}</div>
+                    <div className="p-3 bg-gradient-to-br from-gray-800/60 to-gray-900/60 rounded-lg text-center border border-amber-400/30 hover:border-amber-400/60 transition-all">
+                      <div className="text-amber-400 font-bold text-sm md:text-base">${gwagonData.pricePerDay}</div>
                       <div className="text-gray-300 text-xs">Per Day</div>
                     </div>
-                    <div className="p-3 bg-gradient-to-br from-gray-800/60 to-gray-900/60 rounded-lg text-center border border-yellow-500/30 hover:border-yellow-400/60 transition-all">
-                      <div className="text-yellow-400 font-bold text-sm md:text-base">${gwagonData.pricePerWeek}</div>
+                    <div className="p-3 bg-gradient-to-br from-gray-800/60 to-gray-900/60 rounded-lg text-center border border-amber-400/30 hover:border-amber-400/60 transition-all">
+                      <div className="text-amber-400 font-bold text-sm md:text-base">${gwagonData.pricePerWeek}</div>
                       <div className="text-gray-300 text-xs">Per Week</div>
                     </div>
-                    <div className="p-3 bg-gradient-to-br from-gray-800/60 to-gray-900/60 rounded-lg text-center border border-yellow-500/30 hover:border-yellow-400/60 transition-all">
-                      <div className="text-yellow-400 font-bold text-sm md:text-base">${gwagonData.pricePerMonth}</div>
+                    <div className="p-3 bg-gradient-to-br from-gray-800/60 to-gray-900/60 rounded-lg text-center border border-amber-400/30 hover:border-amber-400/60 transition-all">
+                      <div className="text-amber-400 font-bold text-sm md:text-base">${gwagonData.pricePerMonth}</div>
                       <div className="text-gray-300 text-xs">Per Month</div>
                     </div>
                   </div>
 
                   {/* Buttons */}
                   <div className="flex gap-3">
-                    <button className="flex-1 bg-gradient-to-r from-yellow-500 to-yellow-600 text-black py-2 md:py-3 rounded-lg font-bold text-sm md:text-base shadow hover:scale-105 transition-transform border border-yellow-400">
+                    <button className="flex-1 bg-gradient-to-r from-amber-400 to-amber-500 text-black py-2 md:py-3 rounded-lg font-bold text-sm md:text-base shadow hover:scale-105 transition-transform border border-amber-400">
                       Book Now
                     </button>
-                    <button className="flex-1 bg-gray-800/50 text-white py-2 md:py-3 rounded-lg border border-gray-600 font-semibold text-sm md:text-base hover:bg-gray-700/50 hover:border-yellow-500/50 transition-all">
+                    <button className="flex-1 bg-gray-800/50 text-white py-2 md:py-3 rounded-lg border border-gray-600 font-semibold text-sm md:text-base hover:bg-gray-700/50 hover:border-amber-400/50 transition-all">
                       Contact
                     </button>
                   </div>
@@ -256,16 +256,16 @@ const GWagonSpecial = () => {
       <section className="py-16 md:py-20 px-4 md:px-8 lg:px-12 container mx-auto">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-12 md:mb-16 text-center">
-            Technical <span className="bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">Specifications</span>
+            Technical <span className="bg-gradient-to-r from-amber-400 to-amber-400 bg-clip-text text-transparent">Specifications</span>
           </h2>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {gwagonData.specifications.map((spec, index) => (
               <div
                 key={index}
-                className="bg-gradient-to-br from-gray-800/60 via-gray-900/60 to-red-900/40 backdrop-blur border border-red-500/30 rounded-xl p-4 md:p-6 text-center hover:border-yellow-400/60 hover:shadow-lg hover:shadow-red-500/20 transition-all duration-300 group"
+                className="bg-gradient-to-br from-gray-800/60 via-gray-900/60 to-amber-500/40 backdrop-blur border border-amber-400/30 rounded-xl p-4 md:p-6 text-center hover:border-amber-400/60 hover:shadow-lg hover:shadow-amber-400/20 transition-all duration-300 group"
               >
-                <div className="text-yellow-400 font-bold text-xl md:text-2xl mb-2 group-hover:text-yellow-300 transition-colors">{spec.value}</div>
+                <div className="text-amber-400 font-bold text-xl md:text-2xl mb-2 group-hover:text-amber-300 transition-colors">{spec.value}</div>
                 <div className="text-gray-300 text-xs md:text-sm font-medium group-hover:text-white transition-colors">{spec.label}</div>
               </div>
             ))}
@@ -275,20 +275,20 @@ const GWagonSpecial = () => {
 
       {/* Experience Section */}
       <section className="py-16 md:py-20 px-4 md:px-8 lg:px-12 container mx-auto">
-        <div className="max-w-4xl mx-auto bg-gradient-to-br from-gray-800/60 via-gray-900/60 to-red-900/40 backdrop-blur border border-yellow-500/30 rounded-3xl p-8 md:p-12 text-center shadow-2xl shadow-red-500/10">
+        <div className="max-w-4xl mx-auto bg-gradient-to-br from-gray-800/60 via-gray-900/60 to-amber-500/40 backdrop-blur border border-amber-400/30 rounded-3xl p-8 md:p-12 text-center shadow-2xl shadow-amber-400/10">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-6 md:mb-8">
-            The Ultimate <span className="bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent">Luxury Experience</span>
+            The Ultimate <span className="bg-gradient-to-r from-amber-400 to-amber-400 bg-clip-text text-transparent">Luxury Experience</span>
           </h2>
           <p className="text-gray-300 text-base md:text-lg mb-8 md:mb-10 leading-relaxed">
             Drive the iconic G-Wagon and experience luxury redefined. From its commanding presence on the road to its premium interiors and cutting-edge technology, every moment is an indulgence. Perfect for those who demand the best.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 md:gap-6 justify-center">
-            <button className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-black py-3 md:py-4 px-8 md:px-12 rounded-xl font-bold text-base md:text-lg transition-all shadow-lg hover:shadow-yellow-500/50 hover:scale-105">
+            <button className="bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-500 text-black py-3 md:py-4 px-8 md:px-12 rounded-xl font-bold text-base md:text-lg transition-all shadow-lg hover:shadow-amber-400/50 hover:scale-105">
               Reserve Your G-Wagon
             </button>
             <Link
               to="/our-fleet"
-              className="bg-gray-700/50 hover:bg-gray-600/50 text-white py-3 md:py-4 px-8 md:px-12 rounded-xl font-bold text-base md:text-lg transition-all border border-gray-600 hover:border-yellow-500/50 inline-block hover:scale-105"
+              className="bg-gray-700/50 hover:bg-gray-600/50 text-white py-3 md:py-4 px-8 md:px-12 rounded-xl font-bold text-base md:text-lg transition-all border border-gray-600 hover:border-amber-400/50 inline-block hover:scale-105"
             >
               Explore Other Cars
             </Link>
