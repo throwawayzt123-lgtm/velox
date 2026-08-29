@@ -5,7 +5,8 @@ import { useGLTF, OrbitControls, useProgress, Environment } from '@react-three/d
 import * as THREE from 'three';
 import carsData from '../carsData';
 
-useGLTF.preload('/models/gwagon.glb');
+/* No module-level useGLTF.preload here: it fires the ~2.9MB download as
+   soon as this chunk parses, defeating the point of deferring it. */
 
 /* ------------------------------------------------------------------ */
 /*  Icons                                                              */

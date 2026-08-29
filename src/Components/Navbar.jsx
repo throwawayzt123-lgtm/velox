@@ -47,7 +47,7 @@ const Navbar = () => {
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center">
                         <Link to="/" className="flex items-center space-x-3">
-                            <img src="/Logo.png" alt="Logo" className="w-40 h-20 rounded-md shadow-md" />
+                            <img src="/Logo.webp" alt="Velox Elite" width="480" height="261" className="w-40 h-20 object-contain rounded-md shadow-md" />
                             {/* <span className="text-white font-extrabold text-lg tracking-tight">LuxuryRentals</span> */}
                         </Link>
                     </div>

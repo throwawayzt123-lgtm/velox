@@ -3,6 +3,10 @@ import Hero from '../Components/Hero'
 import LuxuryCarCarousel from '../Components/LuxuryCarCarousel'
 import CarsList from '../Components/CarsList'
 // import Sl from '../Components/Sl'
+import DeferUntilVisible from '../Components/DeferUntilVisible'
+
+// three.js + the .glb + the HDRI are ~4.5MB and ~5s of main-thread work.
+// DeferUntilVisible keeps the chunk request itself off the initial load.
 const InteractiveCar3D = lazy(() => import('../Components/InteractiveCar3D'))
 import useFadeInAnimation from '../useFadeInAnimation'
 
@@ -18,9 +22,11 @@ const Home = () => {
                 <Hero/>
             </div>
             <div ref={interactiveRef}>
-                <Suspense fallback={<div className="min-h-[40vh] flex items-center justify-center text-white">Loading luxury showcase...</div>}>
-                  <InteractiveCar3D />
-                </Suspense>
+                <DeferUntilVisible minHeight="60vh">
+                    <Suspense fallback={<div className="min-h-[60vh] bg-[#0a0a0b]" />}>
+                        <InteractiveCar3D />
+                    </Suspense>
+                </DeferUntilVisible>
             </div>
             <div ref={carouselRef}>
                 <LuxuryCarCarousel/>

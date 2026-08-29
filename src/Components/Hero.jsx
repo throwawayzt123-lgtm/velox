@@ -1,14 +1,14 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import audiLogo from "/brandlogos/audi.png";
-import bmwLogo from "/brandlogos/bmw.png";
-import mercedesLogo from "/brandlogos/mercedes.png";
-import nissanLogo from "/brandlogos/nissan.png";
-import lamboLogo from "/brandlogos/lamborghini.png";
-import ferrariLogo from "/brandlogos/ferrari.png";
-import rollsroyceLogo from "/brandlogos/rollsroyce.png";
-import landroverLogo from "/brandlogos/landrover.png";
-import heroBg from '../Images/Herobg.jpg';
+import audiLogo from "/brandlogos/audi.webp";
+import bmwLogo from "/brandlogos/bmw.webp";
+import mercedesLogo from "/brandlogos/mercedes.webp";
+import nissanLogo from "/brandlogos/nissan.webp";
+import lamboLogo from "/brandlogos/lamborghini.webp";
+import ferrariLogo from "/brandlogos/ferrari.webp";
+import rollsroyceLogo from "/brandlogos/rollsroyce.webp";
+import landroverLogo from "/brandlogos/landrover.webp";
+import heroBg from '../Images/Herobg.webp';
 
 import carsData from '../carsData';
 
@@ -226,6 +226,8 @@ const Hero = () => {
                     <img
                       src={brand.logo}
                       alt={`${brand.name} logo`}
+                      width="160"
+                      height="160"
                       className="max-w-full max-h-full object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.6)]"
                       loading="lazy"
                     />

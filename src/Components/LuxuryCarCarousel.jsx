@@ -70,6 +70,12 @@ const LuxuryCarCarousel = () => {
                   src={car.image}
                   className="absolute inset-0 w-full h-full object-cover opacity-70 cinematic-scale filter brightness-90 group-hover:brightness-100 transition-all duration-1000"
                   alt={car.name}
+                  /* Only the first slide is visible on arrival; the rest are
+                     multi-hundred-KB external images, so defer them. */
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  width="1600"
+                  height="900"
                 />
                 
                 {/* Advanced Light & Shadow Gradients for Text Legibility */}
