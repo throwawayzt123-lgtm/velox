@@ -196,10 +196,10 @@ const InteractiveCar3D = () => {
           <span className="flex-1 h-px bg-gradient-to-r from-white/15 to-transparent" />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="relative">
           {/* ---------------- STAGE ---------------- */}
-          <div className="lg:col-span-7 order-1">
-            <div className="relative h-[38vh] min-h-[240px] sm:h-[46vh] lg:h-[60vh] lg:min-h-[420px]">
+          <div>
+            <div className="relative h-[38vh] min-h-[240px] sm:h-[52vh] lg:h-[72vh] lg:min-h-[560px]">
               <Canvas
                 gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
                 camera={{ position: [0, 0, 3.5], fov: 24 }}
@@ -250,7 +250,8 @@ const InteractiveCar3D = () => {
               <StageLoader />
 
               {/* Interaction hint / touch toggle */}
-              <div className="absolute bottom-0 left-0 z-20">
+              {/* Right-aligned on desktop so it clears the overlaid copy */}
+              <div className="absolute bottom-0 left-0 lg:left-auto lg:right-0 z-20">
                 {isTouch ? (
                   <button
                     type="button"
@@ -275,8 +276,10 @@ const InteractiveCar3D = () => {
             </div>
           </div>
 
-          {/* ---------------- COPY ---------------- */}
-          <div className="lg:col-span-5 order-2">
+          {/* ---------------- COPY ----------------
+              Stacks under the stage on mobile; overlays its lower-left
+              on desktop so the model keeps the full width. */}
+          <div className="mt-8 lg:mt-0 lg:absolute lg:left-0 lg:bottom-0 lg:z-20 lg:max-w-md lg:pointer-events-none [&_a]:pointer-events-auto">
             <div className="text-[9px] uppercase tracking-[0.28em] text-white/35 mb-3">
               {car.brand}
             </div>
