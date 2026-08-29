@@ -1,284 +1,339 @@
 import React, { useRef, useState, useEffect, useMemo, Suspense } from 'react';
+import { Link } from 'react-router-dom';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, OrbitControls, Html, useProgress, Environment } from '@react-three/drei';
+import { useGLTF, OrbitControls, useProgress, Environment } from '@react-three/drei';
 import * as THREE from 'three';
+import carsData from '../carsData';
 
-//error showing white screen when loading the model, this is a custom loader component that can be used to show a loading screen while the model is being loaded. You can customize the appearance of the loader as needed.
+useGLTF.preload('/models/gwagon.glb');
 
-useGLTF.preload('/models/gwagon.glb')
-// Car Model Component with responsive auto-fit
+/* ------------------------------------------------------------------ */
+/*  Icons                                                              */
+/* ------------------------------------------------------------------ */
+
+const ArrowRight = ({ className = 'w-4 h-4' }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+  </svg>
+);
+
+const Drag = ({ className = 'w-4 h-4' }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 9l-3 3 3 3m8-6l3 3-3 3M12 3v18" />
+  </svg>
+);
+
+/* ------------------------------------------------------------------ */
+/*  Scene                                                              */
+/* ------------------------------------------------------------------ */
+
 const CarModel = ({ modelPath, autoRotate }) => {
-  const { scene } = useGLTF(modelPath)
-  const groupRef = useRef()
-  const { viewport } = useThree()
-  const clonedScene = useMemo(() => scene.clone(), [scene])
+  const { scene } = useGLTF(modelPath);
+  const groupRef = useRef();
+  const { viewport } = useThree();
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
 
-  // Auto rotate
   useFrame((state, delta) => {
     if (groupRef.current && autoRotate) {
-      groupRef.current.rotation.y += delta * 0.7
+      groupRef.current.rotation.y += delta * 0.7;
     }
-  })
+  });
 
-  // Responsive fit function
   const fitModelToViewport = () => {
-    if (!groupRef.current) return
-    
-    const g = groupRef.current
-    const box = new THREE.Box3().setFromObject(g)
-    const size = box.getSize(new THREE.Vector3())
-    const maxDim = Math.max(size.x, size.y, size.z)
-    
+    if (!groupRef.current) return;
+
+    const g = groupRef.current;
+    const box = new THREE.Box3().setFromObject(g);
+    const size = box.getSize(new THREE.Vector3());
+    const maxDim = Math.max(size.x, size.y, size.z);
+
     if (maxDim > 0) {
-      // Adjust scale based on viewport width (mobile vs desktop)
-      const isMobile = viewport.width < 6 // viewport units, roughly corresponds to mobile
-      const baseScale = isMobile ? 3.0 : 4.0 
-      const scale = Math.min(6.0, baseScale / maxDim)
-      g.scale.setScalar(scale)
+      const isMobile = viewport.width < 6;
+      const baseScale = isMobile ? 3.0 : 4.0;
+      const scale = Math.min(6.0, baseScale / maxDim);
+      g.scale.setScalar(scale);
     }
-    
-    const center = box.getCenter(new THREE.Vector3())
-    g.position.x += -center.x
-    g.position.y += -center.y
-    g.position.z += -center.z
-  }
+
+    const center = box.getCenter(new THREE.Vector3());
+    g.position.x += -center.x;
+    g.position.y += -center.y;
+    g.position.z += -center.z;
+  };
 
   useEffect(() => {
-    fitModelToViewport()
-  }, [scene, modelPath, clonedScene, viewport.width])
+    fitModelToViewport();
+  }, [scene, modelPath, clonedScene, viewport.width]);
 
   return (
     <group ref={groupRef}>
       <primitive object={clonedScene} />
     </group>
-  )
-}
-
-// Camera controller for responsive adjustments
-const CameraController = () => {
-  const { camera, size } = useThree()
-  
-  useEffect(() => {
-    // Adjust camera position based on screen size
-    const isMobile = size.width < 768
-    camera.position.z = isMobile ? 3.5 : 1
-    camera.fov = isMobile ? 9 : 14
-    camera.updateProjectionMatrix()
-  }, [size.width, camera])
-  
-  return null
-}
-
-// const fitModelToViewport = () => {
-//   if (!groupRef.current) return
-
-//   const g = groupRef.current
-
-//   const box = new THREE.Box3().setFromObject(g)
-//   if (box.isEmpty()) return // ✅ prevent invalid scaling
-
-//   const size = box.getSize(new THREE.Vector3())
-//   const maxDim = Math.max(size.x, size.y, size.z)
-
-//   if (maxDim === 0) return // ✅ critical guard
-
-//   const isMobile = viewport.width < 6
-//   const baseScale = isMobile ? 3.0 : 4.0
-//   const scale = Math.min(6.0, baseScale / maxDim)
-
-//   g.scale.setScalar(scale)
-
-//   const center = box.getCenter(new THREE.Vector3())
-//   g.position.set(-center.x, -center.y, -center.z)
-// }
-
-// useEffect(() => {
-//   const timeout = setTimeout(() => {
-//     fitModelToViewport()
-//   }, 100) // small delay fixes race condition
-
-//   return () => clearTimeout(timeout)
-// }, [clonedScene, viewport.width])
-
-const CustomLoader = () => {
-  const { progress } = useProgress();
-  return (
-    <Html center>
-      <div className="flex flex-col items-center justify-center p-6 bg-gradient-to-br from-black/80 via-gray-900/80 to-amber-500/60 backdrop-blur-xl rounded-3xl text-white border border-amber-400/30 shadow-2xl">
-        <div className="mb-4 relative">
-          <div className="w-16 h-16 border-4 border-amber-400/30 border-t-amber-400 rounded-full animate-spin"></div>
-          <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-r-orange-400 rounded-full animate-spin" style={{animationDirection: 'reverse', animationDuration: '1.5s'}}></div>
-        </div>
-        <p className="text-sm sm:text-base font-bold text-amber-300 mb-2">Loading 3D Model...</p>
-        <div className="w-48 h-2 bg-gray-700 rounded-full overflow-hidden mb-2">
-          <div 
-            style={{ width: `${progress}%` }} 
-            className="h-full bg-gradient-to-r from-amber-400 via-amber-400 to-amber-300 rounded-full transition-all duration-300"
-          />
-        </div>
-        <p className="text-xs sm:text-sm text-gray-300">{progress.toFixed(1)}% loaded</p>
-      </div>
-    </Html>
   );
 };
 
-const InteractiveCar3D = () => {
-  const [currentCar, setCurrentCar] = useState('/models/gwagon.glb')
-  const [autoRotate, setAutoRotate] = useState(true) 
-  const [interactionEnabled, setInteractionEnabled] = useState(true)
-  const [isUserInteracting, setIsUserInteracting] = useState(false)
+const CameraController = () => {
+  const { camera, size } = useThree();
 
-  const cars = [
-    { model: '/models/gwagon.glb', name: 'G-Wagon' },
+  useEffect(() => {
+    const isMobile = size.width < 768;
+    camera.position.z = isMobile ? 3.5 : 1;
+    camera.fov = isMobile ? 9 : 14;
+    camera.updateProjectionMatrix();
+  }, [size.width, camera]);
 
-   
-  ]
+  return null;
+};
+
+/* DOM overlay loader — sits above the canvas so the stage is never bare */
+const StageLoader = () => {
+  const { progress, active } = useProgress();
+  const [hiding, setHiding] = useState(false);
+  const [gone, setGone] = useState(false);
+
+  useEffect(() => {
+    if (active || progress < 100) return undefined;
+
+    let fadeTimer;
+    let doneTimer;
+    const raf = requestAnimationFrame(() => {
+      fadeTimer = setTimeout(() => {
+        setHiding(true);
+        doneTimer = setTimeout(() => setGone(true), 700);
+      }, 200);
+    });
+
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(fadeTimer);
+      clearTimeout(doneTimer);
+    };
+  }, [active, progress]);
+
+  if (gone) return null;
 
   return (
-    <section className="relative h-screen w-full flex flex-col items-center justify-center bg-black overflow-hidden">
-      {/* Animated background particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-amber-400 rounded-full opacity-60 animate-pulse"></div>
-        <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-orange-400 rounded-full opacity-40 animate-bounce" style={{animationDelay: '1s'}}></div>
-        <div className="absolute bottom-1/3 left-1/2 w-3 h-3 bg-amber-400 rounded-full opacity-30 animate-pulse" style={{animationDelay: '2s'}}></div>
-        <div className="absolute top-2/3 right-1/4 w-1.5 h-1.5 bg-amber-300 rounded-full opacity-50 animate-bounce" style={{animationDelay: '0.5s'}}></div>
-        <div className="absolute bottom-1/4 right-1/2 w-2.5 h-2.5 bg-orange-300 rounded-full opacity-25 animate-pulse" style={{animationDelay: '1.5s'}}></div>
-        <div className="absolute top-1/2 left-1/3 w-1 h-1 bg-gold-400 rounded-full opacity-70 animate-ping" style={{animationDelay: '3s'}}></div>
-      </div>
-      {/* Responsive Canvas Container */}
-      <div className="w-full h-[80vh] z-10">
-        <Canvas
-          gl={{ antialias: false, alpha: false, powerPreference: 'high-performance' }}
-          camera={{ position: [0, 0, 3.5], fov: 24 }}
-          style={{ 
-            width: '100%', 
-            height: '100%', 
-            touchAction: 'none',
-             background: "red"
-          }}
-          
-          dpr={[1, .9]} // Limit DPR for better performance on mobile
-          performance={{ min: 1, max: 1.2 }}
-        >
-          <CameraController />
-          
-          {/* Luxurious multi-colored lighting setup */}
-          <ambientLight intensity={0.5} />
-          <directionalLight
-            position={[5, 10, 7]}
-            intensity={2.2}
-            color="#ffffff"
-            castShadow
-            shadow-mapSize-width={2048}
-            shadow-mapSize-height={2048}
-          />
-          <directionalLight
-            position={[-5, 5, -5]}
-            intensity={1.5}
-            color="#000"
-          />
-          <directionalLight
-            position={[0, -5, -10]}
-            intensity={0.8}
-            color="#000"
-          />
-          <pointLight
-            position={[0, 8, 5]}
-            intensity={2.0}
-            color="#ffeb3b"
-            distance={15}
-          />
-          <pointLight
-            position={[-8, 3, 0]}
-            intensity={1.2}
-            color="#ff6b6b"
-            distance={12}
-          />
-          
-          <Environment preset="sunset" background={false} />
-          
-          {/* Car Model */}
-          <Suspense fallback={<CustomLoader />}>
-            <CarModel modelPath={currentCar} autoRotate={autoRotate && !isUserInteracting} />
-          </Suspense>
-
-          {/* Responsive OrbitControls */}
-          <OrbitControls
-            enablePan={false} // Disable panning on mobile for better UX
-            enableZoom={false}
-            enableRotate={interactionEnabled}
-            autoRotate={false}
-            // Mobile-specific settings
-            rotateSpeed={0.5} // Slower rotation on mobile
-            minDistance={1}
-            maxDistance={5}
-            onStart={() => {
-              setIsUserInteracting(true)
-              setAutoRotate(false)
-            }}
-            onEnd={() => {
-              setIsUserInteracting(false)
-              // Delay auto-rotate resume on mobile for better UX
-              setTimeout(() => setAutoRotate(true), 2000)
-            }}
-          />
-        </Canvas>
-      </div>
-     
-      {/* Responsive Overlay Text */}
-      <div className="pointer-events-none z-30 absolute inset-0">
-        {/* Top-left - Hidden on very small screens */}
-        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 max-w-[200px] xs:max-w-xs sm:max-w-md">
-          <div className="text-white drop-shadow-2xl bg-gradient-to-br from-black/50 via-gray-900/60 to-amber-500/40 backdrop-blur-xl rounded-2xl px-4 py-3 border border-amber-400/30 shadow-2xl shadow-amber-400/10">
-            <h3 className="text-xs xs:text-sm sm:text-base font-bold uppercase tracking-widest text-amber-300 mb-1">
-              ✨ Premium Fleet
-            </h3>
-            <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black leading-tight bg-gradient-to-r from-white via-amber-100 to-amber-200 bg-clip-text text-transparent">
-              Luxury In Motion
-            </h2>
-          </div>
+    <div
+      className={`absolute inset-0 z-30 flex items-center justify-center bg-[#0a0a0b] transition-opacity duration-700 ${
+        hiding ? 'opacity-0 pointer-events-none' : 'opacity-100'
+      }`}
+    >
+      <div className="flex flex-col items-center w-52 px-6">
+        <div className="relative w-12 h-12 mb-8">
+          <span className="absolute inset-0 rounded-full border border-white/10" />
+          <span className="absolute inset-0 rounded-full border border-transparent border-t-amber-400 animate-spin [animation-duration:1.1s]" />
         </div>
-
-        {/* Bottom-right - Adjusted for mobile */}
-        <div className="absolute right-4 bottom-4 sm:right-6 sm:bottom-6 text-right max-w-[180px] xs:max-w-xs sm:max-w-sm">
-          <div className="text-white drop-shadow-2xl bg-gradient-to-br from-black/50 via-gray-900/60 to-amber-500/40 backdrop-blur-xl rounded-2xl px-4 py-3 border border-amber-400/30 shadow-2xl shadow-amber-400/10">
-            <h3 className="text-xs xs:text-sm sm:text-base font-bold uppercase tracking-widest text-amber-300 mb-1">
-              🚗 Seamless Booking
-            </h3>
-            <h2 className="text-base xs:text-lg sm:text-xl md:text-2xl font-black leading-tight bg-gradient-to-r from-white via-amber-100 to-amber-200 bg-clip-text text-transparent">
-              Drive The Dream
-            </h2>
-          </div>
+        <div className="font-mono text-[10px] tracking-[0.3em] text-amber-400/80 mb-4 whitespace-nowrap">
+          PREPARING MODEL
+        </div>
+        <div className="w-full h-px bg-white/10 overflow-hidden">
+          <div
+            style={{ width: `${progress}%` }}
+            className="h-full bg-amber-400 transition-all duration-300 ease-out"
+          />
+        </div>
+        <div className="mt-4 font-mono text-xs text-white/45 tabular-nums">
+          {String(Math.round(progress)).padStart(3, '0')}%
         </div>
       </div>
+    </div>
+  );
+};
 
-      {/* Responsive Car Selector & Controls */}
-      <div className="relative z-20 bottom-4 flex flex-col items-center gap-2 px-4">
-        <div className="flex flex-wrap justify-center gap-2 bg-black/40 rounded-full px-3 py-2 backdrop-blur-xl border border-amber-400/30">
-          {cars.map((car, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentCar(car.model)}
-              className={`px-5 py-2 rounded-full font-semibold transition-all duration-300 text-xs sm:text-sm ${
-                currentCar === car.model
-                  ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-black shadow-lg scale-105'
-                  : 'text-gray-300 hover:text-amber-300 bg-gray-800/40 hover:bg-amber-500/20 border border-amber-400/20'
-              }`}
-            >
+/* ------------------------------------------------------------------ */
+/*  Section                                                            */
+/* ------------------------------------------------------------------ */
+
+/* The car this showcase renders — kept in sync with the fleet data */
+const SHOWCASE_ID = 5;
+
+const InteractiveCar3D = () => {
+  const [autoRotate, setAutoRotate] = useState(true);
+  const [isUserInteracting, setIsUserInteracting] = useState(false);
+  /* Rotation is opt-in on touch devices so a swipe scrolls the page
+     instead of being swallowed by OrbitControls. */
+  const [touchRotateEnabled, setTouchRotateEnabled] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
+
+  const car = useMemo(
+    () => carsData.find((c) => c.id === SHOWCASE_ID) || carsData[0],
+    []
+  );
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    setIsTouch(window.matchMedia('(hover: none)').matches);
+  }, []);
+
+  const specs = useMemo(() => (car?.specifications || []).slice(0, 3), [car]);
+
+  /* Pointer rotation is always on for mouse users; gated on touch. */
+  const rotateEnabled = !isTouch || touchRotateEnabled;
+
+  return (
+    <section className="relative w-full bg-[#0a0a0b] text-white border-y border-white/[0.07] overflow-hidden">
+      {/* Warm floor light */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_60%,rgb(var(--primary-500)_/_0.10),transparent_65%)] pointer-events-none" />
+
+      {/* Ghost wordmark */}
+      <div
+        className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-center pointer-events-none select-none"
+        aria-hidden="true"
+      >
+        <span className="text-[18vw] leading-none font-black tracking-tighter text-white/[0.035] whitespace-nowrap uppercase">
+          {car.brand}
+        </span>
+      </div>
+
+      <div className="relative container mx-auto px-6 sm:px-10 lg:px-16 py-14 sm:py-20">
+        {/* Heading */}
+        <div className="flex items-center gap-4 mb-8 sm:mb-10">
+          <span className="font-mono text-[10px] sm:text-xs tracking-[0.3em] text-amber-500/70">
+            ✦
+          </span>
+          <span className="text-[10px] sm:text-xs uppercase tracking-[0.35em] text-white/45">
+            Luxury in motion
+          </span>
+          <span className="flex-1 h-px bg-gradient-to-r from-white/15 to-transparent" />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* ---------------- STAGE ---------------- */}
+          <div className="lg:col-span-7 order-1">
+            <div className="relative h-[38vh] min-h-[240px] sm:h-[46vh] lg:h-[60vh] lg:min-h-[420px]">
+              <Canvas
+                gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
+                camera={{ position: [0, 0, 3.5], fov: 24 }}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  /* Let vertical swipes scroll the page unless the viewer
+                     has explicitly enabled rotation on touch. */
+                  touchAction: rotateEnabled && isTouch ? 'none' : 'pan-y',
+                }}
+                dpr={[1, 1.5]}
+              >
+                <CameraController />
+
+                <ambientLight intensity={0.5} />
+                <directionalLight position={[5, 10, 7]} intensity={2.2} color="#ffffff" />
+                <directionalLight position={[-5, 5, -5]} intensity={1.2} color="#404040" />
+                <pointLight position={[0, 8, 5]} intensity={1.6} color="#ffd28a" distance={15} />
+
+                <Environment preset="sunset" background={false} />
+
+                <Suspense fallback={null}>
+                  <CarModel
+                    modelPath={car.model3D || '/models/gwagon.glb'}
+                    autoRotate={autoRotate && !isUserInteracting}
+                  />
+                </Suspense>
+
+                <OrbitControls
+                  enablePan={false}
+                  enableZoom={false}
+                  enableRotate={rotateEnabled}
+                  autoRotate={false}
+                  rotateSpeed={0.5}
+                  minDistance={1}
+                  maxDistance={5}
+                  onStart={() => {
+                    setIsUserInteracting(true);
+                    setAutoRotate(false);
+                  }}
+                  onEnd={() => {
+                    setIsUserInteracting(false);
+                    setTimeout(() => setAutoRotate(true), 2000);
+                  }}
+                />
+              </Canvas>
+
+              <StageLoader />
+
+              {/* Interaction hint / touch toggle */}
+              <div className="absolute bottom-0 left-0 z-20">
+                {isTouch ? (
+                  <button
+                    type="button"
+                    onClick={() => setTouchRotateEnabled((v) => !v)}
+                    aria-pressed={touchRotateEnabled}
+                    className={`inline-flex items-center gap-2.5 border px-4 py-2.5 text-[9px] uppercase tracking-[0.22em] transition-colors duration-500 ${
+                      touchRotateEnabled
+                        ? 'border-amber-400/60 text-amber-200 bg-amber-400/10'
+                        : 'border-white/15 text-white/50'
+                    }`}
+                  >
+                    <Drag className="w-3.5 h-3.5" />
+                    {touchRotateEnabled ? 'Rotating — tap to scroll' : 'Tap to rotate'}
+                  </button>
+                ) : (
+                  <div className="inline-flex items-center gap-2.5 text-[9px] uppercase tracking-[0.22em] text-white/30">
+                    <Drag className="w-3.5 h-3.5" />
+                    Drag to rotate
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* ---------------- COPY ---------------- */}
+          <div className="lg:col-span-5 order-2">
+            <div className="text-[9px] uppercase tracking-[0.28em] text-white/35 mb-3">
+              {car.brand}
+            </div>
+
+            <h2 className="text-[clamp(1.75rem,5vw,3.25rem)] leading-[0.98] font-light tracking-[-0.03em]">
               {car.name}
-            </button>
-          ))}
+            </h2>
+            <p className="mt-2 text-base sm:text-lg font-serif italic text-amber-100/70">
+              {car.model}
+            </p>
+
+            {specs.length > 0 && (
+              <div className="mt-8 grid grid-cols-3 gap-4 border-t border-white/[0.09] pt-6">
+                {specs.map((s) => (
+                  <div key={s.label} className="min-w-0">
+                    <div className="text-[8px] uppercase tracking-[0.2em] text-white/30 mb-1.5 truncate">
+                      {s.label}
+                    </div>
+                    <div className="text-sm sm:text-base font-light text-white/80 truncate">
+                      {s.value}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="mt-8 flex items-baseline gap-2">
+              <span className="text-2xl sm:text-3xl font-light text-amber-200">
+                ${car.pricePerDay}
+              </span>
+              <span className="text-xs text-white/35 uppercase tracking-[0.2em]">/ day</span>
+            </div>
+
+            <div className="mt-9 flex flex-col sm:flex-row gap-3">
+              <Link
+                to={car.model3D ? `/car-3d/${car.id}` : `/car/${car.id}`}
+                className="group relative overflow-hidden bg-amber-400 text-black px-8 py-4 text-[10px] uppercase tracking-[0.26em] font-medium text-center"
+              >
+                <span className="relative z-10 inline-flex items-center justify-center gap-3">
+                  Explore in 3D
+                  <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" />
+                </span>
+                <span className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+              </Link>
+
+              <Link
+                to={`/car/${car.id}`}
+                className="border border-white/20 hover:border-white/50 px-8 py-4 text-[10px] uppercase tracking-[0.26em] text-white/80 hover:text-white transition-colors duration-500 text-center"
+              >
+                Full details
+              </Link>
+            </div>
+          </div>
         </div>
-        {/* <button
-          onClick={() => setAutoRotate((prev) => !prev)}
-          className={`px-4 py-1.5 rounded-full font-semibold transition-all duration-300 text-xs sm:text-sm bg-gradient-to-r from-amber-400 to-amber-500 text-black shadow-lg hover:scale-105 border border-amber-400 ${autoRotate ? 'animate-pulse' : 'opacity-75'}`}
-        >
-          {autoRotate ? '⏸️ Pause' : '▶️ Play'}
-        </button> */}
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default InteractiveCar3D
-
+export default InteractiveCar3D;
